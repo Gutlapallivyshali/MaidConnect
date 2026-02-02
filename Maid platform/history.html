@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Booking History | MaidConnect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body { background:#f3f4f6; font-family:Poppins; }
+    header { background:#1f3c88; color:white; padding:15px 30px; }
+    .container { padding:30px 60px; }
+    .card {
+      background:white; border-radius:14px; padding:20px;
+      box-shadow:0 10px 20px rgba(0,0,0,0.08);
+      margin-bottom:20px;
+    }
+    .status {
+      font-weight:600;
+      margin-top:8px;
+    }
+    .pending { color:#f59e0b; }
+    .accepted { color:#22c55e; }
+    .declined { color:#ef4444; }
+    .actions {
+      display:flex; gap:12px; margin-top:15px;
+    }
+    .btn {
+      flex:1; padding:10px; border:none; border-radius:8px;
+      cursor:pointer; color:white;
+    }
+    .contact { background:#1f3c88; }
+    .rate { background:#22c55e; }
+    .decline-reason {
+    background: #fef2f2;
+    border-left: 4px solid #ef4444;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #991b1b;
+    border-radius: 4px;
+}
+  </style>
+</head>
+<body>
+
+<header>My Booking History</header>
+
+<div class="container" id="historyContainer">
+  <!-- Booking cards here -->
+</div>
+
+<script type="module" src="js/history.js"></script>
+<div class="overlay" id="ratingOverlay"></div>
+<div id="ratingModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:30px; border-radius:15px; box-shadow:0 0 50px rgba(0,0,0,0.3); z-index:1000; text-align:center; width:320px;">
+    <h3 id="ratingTargetName">Rate Service</h3>
+    <div style="font-size: 30px; margin: 15px 0; color: #fbbf24; cursor: pointer;" id="starContainer">
+        <span class="star" data-value="1">☆</span>
+        <span class="star" data-value="2">☆</span>
+        <span class="star" data-value="3">☆</span>
+        <span class="star" data-value="4">☆</span>
+        <span class="star" data-value="5">☆</span>
+    </div>
+    <textarea id="ratingComment" placeholder="Write a short review..." style="width:100%; height:80px; padding:10px; border-radius:6px; border:1px solid #ddd; margin-bottom:15px; resize:none;"></textarea>
+    <button id="submitRatingBtn" style="background:#22c55e; color:white; border:none; padding:10px; border-radius:8px; width:100%; cursor:pointer;">Submit Review</button>
+    <button onclick="closeRatingModal()" style="background:#9ca3af; color:white; border:none; padding:5px; border-radius:8px; width:100%; cursor:pointer; margin-top:10px;">Cancel</button>
+</div>
+
+<style>
+    .star.selected { content: "★"; color: #fbbf24; }
+    #ratingOverlay { display: none; position: fixed; top:0; left:0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
+</style>
+</body>
+</html>

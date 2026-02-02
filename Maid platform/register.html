@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maid Registration | MaidConnect</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(120deg, #1f3c88, #1f3c88);
+            min-height: 100vh;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 18px 60px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: #1f3c88;
+        }
+
+        nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #1f3c88;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        .container p {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #374151;
+        }
+
+        .input-group input,
+        .input-group textarea,
+        .input-group select {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            font-size: 14px;
+        }
+
+        .input-group textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        .skills {
+            grid-column: span 2;
+        }
+
+        .skills label {
+            margin-bottom: 12px;
+        }
+
+        .skill-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .skill-options label {
+            background: #e0e7ff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            margin-top: 40px;
+            width: 100%;
+            padding: 16px;
+            background: #1f3c88;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #1f3c88;
+        }
+
+        footer {
+            text-align: center;
+            color: #e5e7eb;
+            padding-bottom: 30px;
+            font-size: 14px;
+        }
+        
+    </style>
+    
+</head>
+<body>
+    
+    <!-- Header -->
+    <header>
+        <h1>MaidConnect</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="maids.html">Find Maids</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </header>
+
+    <!-- Registration Form -->
+    <div class="container">
+        <h2>Maid Registration</h2>
+        <p>Register yourself and find work opportunities near you</p>
+
+        <!-- ✅ Added id ONLY -->
+        <form id="registerForm">
+            <div class="form-grid">
+
+                <div class="input-group">
+            <label>Full Name</label>
+            <input type="text"
+                   id="name"
+                   placeholder="Enter your full name"
+                   pattern="[A-Za-z\s]+"
+                   required>
+                </div>
+
+                <div class="input-group">
+            <label>Phone Number</label>
+            <input type="tel"
+                   id="phone"
+                   placeholder="10-digit mobile number"
+                   pattern="[0-9]{10}"
+                   maxlength="10"
+                    inputmode="numeric"
+                    required>
+                </div>
+
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <!-- ✅ Added id -->
+                    <input type="email" id="regEmail" placeholder="example@email.com" required>
+                </div>
+
+                <!-- ✅ Added Password field (required for Firebase Auth) -->
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="regPassword" placeholder="Create a password" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Location</label>
+                    <input type="text" id="location" placeholder="City / Area" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Availability</label>
+                    <select id="availability" required>
+                        <option value="">Select</option>
+                        <option>Full Time</option>
+                        <option>Part Time</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Experience (Years)</label>
+                    <input type="number" id="experience" min="0" placeholder="Eg: 3" required>
+                </div>
+
+                <div class="input-group skills">
+                    <label>Skills</label>
+                    <div class="skill-options">
+                        <label><input type="checkbox" value="Cooking"> Cooking</label>
+                        <label><input type="checkbox" value="Cleaning"> Cleaning</label>
+                        <label><input type="checkbox" value="Babysitting"> Babysitting</label>
+                        <label><input type="checkbox" value="Elder Care"> Elder Care</label>
+                        <label><input type="checkbox" value="Washing"> Washing</label>
+                    </div>
+                </div>
+
+                <div class="input-group" style="grid-column: span 2;">
+                    <label>WorkDetails</label>
+                    <textarea id="workDetails" placeholder="Describe your past work experience..."></textarea>
+                </div>
+
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Submit Registration
+            </button>
+        </form>
+    </div>
+
+    <footer>
+        Built for GDG Hackathon | Empowering Domestic Workers 💙
+    </footer>
+
+    <!-- ✅ Firebase Auth Script -->
+    <!--<script type="module" src="js/auth.js"></script>-->
+    <script type="module" src="js/registerMaid.js"></script>
+    
+</body>
+
+</html>

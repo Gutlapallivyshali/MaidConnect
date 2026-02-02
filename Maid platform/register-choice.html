@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join MaidConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: linear-gradient(120deg, #1f3c88, #1f3c88);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 18px 60px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 { color: #1f3c88; }
+
+        .selection-container {
+            margin-top: 80px;
+            text-align: center;
+            color: white;
+            max-width: 800px;
+        }
+
+        .selection-container h2 { font-size: 32px; margin-bottom: 10px; }
+        .selection-container p { margin-bottom: 40px; opacity: 0.9; }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .role-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            color: #1f3c88;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .role-card h3 { font-size: 24px; margin-bottom: 15px; }
+        .role-card p { color: #6b7280; font-size: 14px; margin-bottom: 25px; }
+
+        .btn {
+            background: #1f3c88;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .role-card:hover .btn { background: #142a63; }
+
+        /* Icon styling (Optional) */
+        .icon { font-size: 50px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>MaidConnect</h1>
+        <nav>
+            <a href="index.html" style="text-decoration:none; color:#1f3c88; font-weight:500;">Back to Home</a>
+        </nav>
+    </header>
+
+    <div class="selection-container">
+        <h2>Join Our Community</h2>
+        <p>Please select how you would like to register with us today.</p>
+
+        <div class="button-grid">
+            <a href="register-user.html" class="role-card">
+                <div class="icon">🏠</div>
+                <h3>I am a Customer</h3>
+                <p>I am looking to hire professional help for my home.</p>
+                <div class="btn">Register as User</div>
+            </a>
+
+            <a href="register.html" class="role-card">
+                <div class="icon">🧹</div>
+                <h3>I am a Worker</h3>
+                <p>I am looking for domestic work opportunities.</p>
+                <div class="btn">Register as Maid</div>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

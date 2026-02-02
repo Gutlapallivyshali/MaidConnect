@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | MaidConnect</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1f3c88, #2563eb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: #ffffff;
+            width: 380px;
+            padding: 40px;
+            border-radius: 14px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            color: #111827;
+            margin-bottom: 10px;
+        }
+
+        .login-container p {
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .input-group input:focus {
+            border-color: #1f3c88;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #1f3c88;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: #1f3c88;
+        }
+
+        .extra-links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .extra-links a {
+            text-decoration: none;
+            color: #1f3c88;
+            font-weight: 500;
+        }
+
+        .extra-links a:hover {
+            text-decoration: underline;
+        }
+
+        .role-hint {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Welcome Back</h2>
+        <p>Login to continue using MaidConnect</p>
+
+        <!-- ✅ Added id ONLY -->
+        <form id="loginForm">
+            <div class="input-group">
+                <label>Email Address</label>
+                <!-- ✅ Added id -->
+                <input type="email" id="loginEmail" placeholder="example@email.com" required>
+            </div>
+
+            <div class="input-group" style="position: relative;">
+    <label>Password</label>
+
+    <input type="password"
+           id="loginPassword"
+           placeholder="Enter your password"
+           required
+           style="padding-right: 45px;">
+
+    <!-- Eye Icon -->
+    <button type="button"
+            id="togglePasswordBtn"
+            style="
+              position: absolute;
+              right: 12px;
+              top: 38px;
+              background: none;
+              border: none;
+              cursor: pointer;
+            ">
+        <svg id="eyeIcon"
+             xmlns="http://www.w3.org/2000/svg"
+             width="20" height="20"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="#6b7280"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+        </svg>
+    </button>
+</div>
+
+            <button class="login-btn" type="submit">Login</button>
+        </form>
+
+        <div class="extra-links">
+            <p>
+                Don’t have an account?
+                <a href="register-choice.html">Register</a>
+            </p>
+        </div>
+
+        <div class="role-hint">
+            * For both users and maids
+        </div>
+    </div>
+
+    <!-- ✅ Firebase Auth Script -->
+    <script type="module" src="js/auth.js"></script>
+
+</body>
+</html>

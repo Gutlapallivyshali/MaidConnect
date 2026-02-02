@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MaidConnect | Trusted Home Care</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-blue: #1f3c88;
+            --accent-gold: #ffcc00;
+            --soft-bg: #f8faff;
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body { background-color: #ffffff; color: var(--text-dark); overflow-x: hidden; }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav h1 { color: var(--primary-blue); font-size: 24px; font-weight: 700; }
+
+        nav ul { list-style: none; display: flex; gap: 30px; }
+        nav ul li a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover { color: var(--primary-blue); }
+
+        /* Hero Section Split */
+        .hero {
+            display: flex;
+            align-items: center;
+            min-height: 85vh;
+            padding: 0 8%;
+            gap: 50px;
+        }
+
+        /* Left Side: Image */
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 550px;
+            border-radius: 20px;
+            box-shadow: 20px 20px 60px rgba(0,0,0,0.1);
+            object-fit: cover;
+        }
+
+        /* Right Side: Matter */
+        .hero-text {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .hero-text h2 {
+            font-size: 48px;
+            color: var(--primary-blue);
+            line-height: 1.2;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons { display: flex; gap: 20px; }
+
+        .btn {
+            padding: 16px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: #fff;
+            box-shadow: 0 10px 20px rgba(31, 60, 136, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            background-color: #162d66;
+        }
+
+        .btn-secondary {
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--soft-bg);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 8%;
+            background-color: var(--soft-bg);
+            text-align: center;
+        }
+
+        .features h3 {
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: var(--primary-blue);
+        }
+
+        .feature-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature {
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            transition: 0.3s;
+            border: 1px solid #eef2f6;
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        .feature h4 {
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+            font-size: 20px;
+        }
+
+        .feature p {
+            color: var(--text-light);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        footer {
+            background-color: var(--primary-blue);
+            color: #fff;
+            text-align: center;
+            padding: 40px;
+        }
+
+        @media (max-width: 992px) {
+            .hero { flex-direction: column-reverse; text-align: center; padding-top: 50px; }
+            .hero-text h2 { font-size: 36px; }
+            .hero-buttons { justify-content: center; }
+            .hero-image img { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>MaidConnect</h1>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-image">
+    <img src="image.jpeg" 
+         alt="Professional Cleaning Service" 
+         onerror="this.src='https://via.placeholder.com/600x400?text=MaidConnect+Care+Image'">
+</div>
+
+        <div class="hero-text">
+            <h2>Find Trusted & Verified Maids Near You</h2>
+            <p>
+                MaidConnect is a smart platform that connects households with skilled
+                domestic workers. Browse verified profiles, skills, experience and
+                availability – all in one place.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="login.html" class="btn btn-primary">Login</a>
+                <a href="register-choice.html" class="btn btn-secondary">Register</a>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="features">
+        <h3>Why Choose MaidConnect?</h3>
+        <div class="feature-box">
+            <div class="feature">
+                <h4>✔ Verified Profiles</h4>
+                <p>All maids undergo a strict background check and provide skill details for your safety.</p>
+            </div>
+            <div class="feature">
+                <h4>✔ Skill-Based Search</h4>
+                <p>Advanced AI-matching to find the perfect help for cooking, cleaning, or babysitting.</p>
+            </div>
+            <div class="feature">
+                <h4>✔ Empower Workers</h4>
+                <p>We provide a dignified platform for domestic workers to find consistent, fair-paying jobs.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 MaidConnect | GDG Hackathon Innovation</p>
+    </footer>
+
+</body>
+</html>

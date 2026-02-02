@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maid Dashboard | MaidConnect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+    body { min-height:100vh; background: #f0f4f8; color: #1f3c88; }
+    header { background:#1f3c88; color:white; padding:15px 30px; font-size:22px; font-weight:600; display: flex; justify-content: space-between; align-items: center; }
+    .nav-links a { color: white; text-decoration: none; font-size: 14px; margin-left: 15px; font-weight: 400; }
+    
+    .dashboard { display:flex; padding:30px; gap:30px; }
+    
+    /* Profile Panel */
+    .profile-panel { flex:1; background:white; border-radius:12px; padding:20px; box-shadow:0 10px 20px rgba(0,0,0,0.1); height: fit-content; }
+    h2 { text-align:center; margin-bottom:15px; color:#1f3c88; border-bottom: 2px solid #f0f4f8; padding-bottom: 10px; }
+    
+    /* Progress Bar */
+    .progress-container { margin-bottom: 20px; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; font-weight: 600; }
+    .progress-bar-bg { background: #e5e7eb; height: 10px; border-radius: 5px; overflow: hidden; }
+    .progress-bar-fill { background: #22c55e; height: 100%; width: 0%; transition: width 0.8s ease-in-out; }
+
+    /* Rating Badge */
+    .rating-badge { background: #fffbeb; border: 1px solid #fef3c7; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; }
+    .rating-score { font-size: 24px; font-weight: 600; color: #d97706; }
+    .rating-count { font-size: 12px; color: #92400e; }
+
+    /* Notification Badge */
+    .notification-badge {
+      background: #ef4444; color: white; font-size: 10px; padding: 2px 7px; border-radius: 10px; margin-left: 8px;
+      display: none; vertical-align: middle; animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+    .profile-field { margin-bottom: 12px; }
+    .profile-field label { font-weight:600; color:#374151; display:block; margin-bottom:2px; font-size: 13px; }
+    .profile-field span { font-weight:400; color:#1f2937; line-height: 1.4; display: block; font-size: 14px; }
+    
+    button { padding:10px 16px; background:#1f3c88; color:white; border:none; border-radius:8px; cursor:pointer; font-size:14px; width: 100%; transition: 0.2s; }
+    button:hover { background:#2563eb; }
+
+    /* Request Cards */
+    .request { border:1px solid #e5e7eb; border-radius:10px; padding:15px; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; background: #fafafa; }
+    .status-tag { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 600; text-transform: uppercase; }
+    .status-pending { background: #fef3c7; color: #92400e; }
+    .status-accepted { background: #dcfce7; color: #166534; }
+    .status-declined { background: #fee2e2; color: #991b1b; }
+
+    /* Modals */
+    .overlay { display: none; position: fixed; top:0; left:0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
+    #successPopup, #declinePopup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 15px; box-shadow: 0 0 50px rgba(0,0,0,0.3); z-index: 1000; text-align: center; width: 320px; }
+    #declinePopup textarea { width: 100%; height: 80px; margin-top: 10px; padding: 10px; border-radius: 6px; border: 1px solid #ddd; resize: none; font-size: 13px; }
+
+    /* Form Styling */
+    #editForm { display:none; margin-top:10px; }
+    #editForm label { font-size: 13px; font-weight: 600; margin-top: 10px; display: block; }
+    #editForm input, #editForm textarea, #editForm select { width:100%; padding:10px; border-radius:6px; border:1px solid #d1d5db; margin-top:4px; font-size:14px; }
+    .missing-field { border: 2px solid #ef4444 !important; background-color: #fef2f2; }
+
+    .main-panel { flex:2; display: flex; flex-direction: column; gap: 30px; }
+    .content-card { background:white; border-radius:12px; padding:25px; box-shadow:0 10px 20px rgba(0,0,0,0.1); }
+    .section-title { margin-bottom: 20px; color: #1f3c88; font-size: 1.1rem; font-weight: 600; border-left: 4px solid #1f3c88; padding-left: 10px; display: flex; align-items: center; }
+  </style>
+</head>
+<body>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div id="successPopup">
+    <h3>✨ 100% Complete!</h3>
+    <p style="font-size: 14px; margin-bottom: 15px;">Your profile is now fully optimized to attract more customers!</p>
+    <button onclick="location.reload()">Awesome!</button>
+  </div>
+
+  <div id="declinePopup">
+    <h3 style="color: #ef4444;">Decline Request</h3>
+    <p style="font-size: 12px; color: #666;">Provide a reason for the client:</p>
+    <textarea id="declineReason" placeholder="I am already booked for this time..."></textarea>
+    <button id="confirmDeclineBtn" style="background:#ef4444; margin-top:10px;">Confirm Decline</button>
+    <button onclick="closeDeclinePopup()" style="background:#9ca3af; margin-top:5px;">Cancel</button>
+  </div>
+
+  <header>
+    <span>MaidConnect Dashboard</span>
+    <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="#" id="logoutBtn">Logout</a>
+    </nav>
+  </header>
+
+  <div class="dashboard">
+    <div class="profile-panel">
+      <h2>My Profile</h2>
+      <div class="progress-container">
+        <div class="progress-label"><span>Profile Completion</span><span id="progressText">0%</span></div>
+        <div class="progress-bar-bg"><div id="progressBarFill" class="progress-bar-fill"></div></div>
+      </div>
+
+      <div class="rating-badge">
+        <div class="rating-score">★ <span id="avgRatingDisplay">0.0</span></div>
+        <div class="rating-count">Based on <span id="reviewCountDisplay">0</span> reviews</div>
+      </div>
+
+      <div id="profileView">
+        <div class="profile-field"><label>Full Name</label> <span id="viewName"></span></div>
+        <div class="profile-field"><label>Phone</label> <span id="viewPhone"></span></div>
+        <div class="profile-field"><label>Location</label> <span id="viewLocation"></span></div>
+        <div class="profile-field"><label>Availability</label> <span id="viewAvailability"></span></div>
+        <div class="profile-field"><label>Experience</label> <span id="viewExperience"></span> years</div>
+        <div class="profile-field"><label>Skills</label> <span id="viewSkills"></span></div>
+        <div class="profile-field"><label>Work Details</label> <span id="viewWorkDetails"></span></div>
+        <button id="editBtn">Edit Profile</button>
+      </div>
+
+      <form id="editForm">
+        <label>Full Name</label><input type="text" id="name" class="completeness-check" required>
+        <label>Phone</label><input type="tel" id="phone" class="completeness-check" required>
+        <label>Location</label><input type="text" id="location" class="completeness-check" required>
+        <label>Availability</label>
+        <select id="availability" class="completeness-check" required>
+          <option value="">Select</option>
+          <option value="Full Time">Full Time</option>
+          <option value="Part Time">Part Time</option>
+        </select>
+        <label>Experience (Years)</label><input type="number" id="experience" class="completeness-check" min="0" required>
+        <label>Skills</label><input type="text" id="skills" class="completeness-check" placeholder="e.g. Cooking, Cleaning">
+        <label>Work Details</label><textarea id="workDetails" class="completeness-check" placeholder="Describe your experience..."></textarea>
+        
+        <button type="submit" style="margin-top: 15px;">Save Changes</button>
+        <button type="button" onclick="location.reload()" style="background:#ef4444; margin-top:8px;">Cancel</button>
+      </form>
+    </div>
+
+    <div class="main-panel">
+      <div class="content-card">
+        <div class="section-title">
+            Job Requests 
+            <span id="reqBadge" class="notification-badge">0</span>
+        </div>
+        <div id="requestsContainer">Loading requests...</div>
+      </div>
+
+      <div class="content-card">
+        <div class="section-title">Customer Feedback</div>
+        <div id="reviewsContainer">Loading feedback...</div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db } from "../firebase.js";
+    import { doc, getDoc, setDoc, collection, query, where, onSnapshot, updateDoc, orderBy, getDocs, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    const requestsContainer = document.getElementById("requestsContainer");
+    const reviewsContainer = document.getElementById("reviewsContainer");
+    const reqBadge = document.getElementById("reqBadge");
+    let currentDeclineId = null;
+
+    // Calculate Completion %
+    function getPercentage(data) {
+        const fields = ['name', 'phone', 'location', 'availability', 'experience', 'skills', 'workDetails'];
+        let filledCount = 0;
+        fields.forEach(f => {
+            if (data[f] && data[f].toString().trim() !== "") filledCount++;
+        });
+        return Math.round((filledCount / fields.length) * 100);
+    }
+
+    // --- 1. LIVE REQUESTS & NOTIFICATIONS ---
+    // Fix: Pulling actual userName from Firestore instead of "Client"
+    function listenForRequests(maidId) {
+      const q = query(collection(db, "requests"), where("maidId", "==", maidId));
+      onSnapshot(q, (snapshot) => {
+        let pendingCount = 0;
+        requestsContainer.innerHTML = snapshot.empty ? "<p style='font-size:13px;'>No requests found.</p>" : "";
+        
+        snapshot.forEach((dSnap) => {
+          const req = dSnap.data();
+          if(req.status === 'pending') pendingCount++;
+
+          const div = document.createElement("div");
+          div.className = "request";
+          
+          // Use the userName stored in the request
+          const clientName = req.userName || "Customer";
+
+          div.innerHTML = `
+            <div class="request-info">
+              <strong>${clientName}</strong><br>
+              <span class="status-tag status-${req.status}">${req.status}</span>
+            </div>
+            <div class="request-actions">
+              ${req.status === 'pending' ? `
+                <button onclick="window.updateStatus('${dSnap.id}','accepted')" style="width:75px; background:#22c55e; margin-right:5px; color:white; border:none; border-radius:5px; cursor:pointer;">Accept</button>
+                <button onclick="window.openDecline('${dSnap.id}')" style="width:75px; background:#ef4444; color:white; border:none; border-radius:5px; cursor:pointer;">Decline</button>
+              ` : '<span style="font-weight:600; color:#1f3c88;">Processed</span>'}
+            </div>`;
+          requestsContainer.appendChild(div);
+        });
+
+        // Update Notification Badge
+        if (pendingCount > 0) {
+          reqBadge.innerText = pendingCount;
+          reqBadge.style.display = "inline-block";
+        } else { reqBadge.style.display = "none"; }
+      });
+    }
+
+    // --- 2. PROFILE LOADING ---
+    async function loadProfile() {
+      const docSnap = await getDoc(doc(db, "workers", auth.currentUser.uid));
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const perc = getPercentage(data);
+        document.getElementById("progressBarFill").style.width = perc + "%";
+        document.getElementById("progressText").innerText = perc + "%";
+
+        document.getElementById("avgRatingDisplay").innerText = data.avgRating || "0.0";
+        document.getElementById("reviewCountDisplay").innerText = data.reviewcount || "0";
+
+        // View display
+        document.getElementById("viewName").innerText = data.name || "N/A";
+        document.getElementById("viewPhone").innerText = data.phone || "N/A";
+        document.getElementById("viewLocation").innerText = data.location || "N/A";
+        document.getElementById("viewAvailability").innerText = data.availability || "N/A";
+        document.getElementById("viewExperience").innerText = data.experience || "0";
+        document.getElementById("viewSkills").innerText = (data.skills || []).join(", ") || "N/A";
+        document.getElementById("viewWorkDetails").innerText = data.workDetails || "N/A";
+
+        // Form filling
+        document.getElementById("name").value = data.name || "";
+        document.getElementById("phone").value = data.phone || "";
+        document.getElementById("location").value = data.location || "";
+        document.getElementById("availability").value = data.availability || "";
+        document.getElementById("experience").value = data.experience || "";
+        document.getElementById("skills").value = (data.skills || []).join(", ");
+        document.getElementById("workDetails").value = data.workDetails || "";
+      }
+    }
+
+    // --- 3. REVIEWS LOADING ---
+    // Fix: Dynamically loading real stars and comments from subcollection
+    async function loadReviews() {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const q = query(collection(db, "workers", user.uid, "comments"), orderBy("createdAt", "desc"), limit(10));
+        
+        try {
+            const snap = await getDocs(q);
+            reviewsContainer.innerHTML = ""; // Clear loader
+
+            if (snap.empty) {
+                reviewsContainer.innerHTML = "<p style='color:#666; font-size:14px;'>No feedback yet.</p>";
+                return;
+            }
+
+            snap.forEach(d => {
+                const rev = d.data();
+                const div = document.createElement("div");
+                div.style.borderBottom = "1px solid #eee";
+                div.style.padding = "10px 0";
+                
+                // Visual star display
+                const stars = "★".repeat(rev.rating) + "☆".repeat(5 - rev.rating);
+                
+                div.innerHTML = `
+                    <div style="color:#fbbf24; font-size:14px;">${stars}</div>
+                    <p style="font-size:13px; font-style:italic; margin:5px 0;">"${rev.comment || 'No comment'}"</p>
+                    <small style="color:#9ca3af;">- ${rev.userName || 'Anonymous'}</small>
+                `;
+                reviewsContainer.appendChild(div);
+            });
+        } catch (err) {
+            console.error("Reviews failed to load:", err);
+            reviewsContainer.innerHTML = "<p>Error loading feedback.</p>";
+        }
+    }
+
+    // Action Handlers
+    window.openDecline = (id) => {
+        currentDeclineId = id;
+        document.getElementById("declinePopup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+    };
+
+    window.closeDeclinePopup = () => {
+        document.getElementById("declinePopup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    };
+
+    window.updateStatus = async (id, status, reason = "") => {
+        await updateDoc(doc(db, "requests", id), { status, declineReason: reason });
+    };
+
+    document.getElementById("confirmDeclineBtn").onclick = async () => {
+        const reason = document.getElementById("declineReason").value;
+        await window.updateStatus(currentDeclineId, 'declined', reason);
+        closeDeclinePopup();
+    };
+
+    // Auth & Init
+    auth.onAuthStateChanged(user => {
+      if (user) { 
+          loadProfile(); 
+          listenForRequests(user.uid); 
+          loadReviews(); // Ensuring review call is active
+      }
+      else { window.location.href="login.html"; }
+    });
+
+    // Toggle Edit Form
+    document.getElementById("editBtn").onclick = () => {
+        document.getElementById("profileView").style.display = "none";
+        document.getElementById("editForm").style.display = "block";
+        document.querySelectorAll(".completeness-check").forEach(input => {
+            if (!input.value.trim()) input.classList.add("missing-field");
+            input.oninput = () => input.classList.remove("missing-field");
+        });
+    };
+
+    // Form Submit
+    document.getElementById("editForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const newData = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        location: document.getElementById("location").value,
+        availability: document.getElementById("availability").value,
+        experience: document.getElementById("experience").value,
+        skills: document.getElementById("skills").value.split(",").map(s => s.trim()),
+        workDetails: document.getElementById("workDetails").value,
+        updatedAt: new Date()
+      };
+      
+      await setDoc(doc(db, "workers", auth.currentUser.uid), newData, { merge: true });
+
+      if (getPercentage(newData) === 100) {
+          confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+          document.getElementById("successPopup").style.display = "block";
+          document.getElementById("overlay").style.display = "block";
+      } else { location.reload(); }
+    };
+
+    document.getElementById("logoutBtn").onclick = () => signOut(auth).then(() => location.reload());
+  </script>
+</body>
+</html>

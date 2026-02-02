@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Maids | MaidConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #f3f4f6; color: #1f3c88; }
+        header { background: #ffffff; padding: 18px 60px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+        header h1 { color: #1f3c88; }
+        nav a { margin-left: 20px; text-decoration: none; color: #1f3c88; font-weight: 500; }
+        .page-title { text-align: center; padding: 40px 20px; }
+        .maid-list { padding: 40px 60px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .maid-card { background: #ffffff; border-radius: 14px; padding: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.06); }
+        .skill { display: inline-block; background: #e0e7ff; color: #1f3c88; padding: 6px 12px; border-radius: 20px; font-size: 12px; margin: 4px 4px 0 0; }
+        .action-buttons { display: flex; gap: 12px; margin-top: 20px; }
+        .contact-btn { flex: 1; padding: 12px; background: #1f3c88; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        .book-btn { flex: 1; padding: 12px; background: #22c55e; color: white; border: none; border-radius: 8px; cursor: pointer; }
+
+        /* Rating Modal Styles - FIXED */
+        .rating-modal-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 3000;
+            justify-content: center; align-items: center;
+        }
+        .modal-box { background: white; padding: 30px; border-radius: 15px; width: 350px; text-align: center; }
+        .modal-box select, .modal-box textarea { width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; }
+        footer { background: #1f3c88; color: #9ca3af; text-align: center; padding: 20px; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>MaidConnect</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="history.html">My Bookings</a>
+        </nav>
+    </header>
+
+    <section class="page-title">
+        <h2>Available Maids</h2>
+    </section>
+
+    <section class="maid-list" id="maidsContainer"></section>
+
+    <div id="ratingModal" class="rating-modal-overlay">
+        <div class="modal-box">
+            <h3>Rate <span id="targetMaidName">Maid</span></h3>
+            <select id="ratingValue">
+                <option value="5">5 Stars - Excellent</option>
+                <option value="4">4 Stars - Very Good</option>
+                <option value="3">3 Stars - Good</option>
+                <option value="2">2 Stars - Fair</option>
+                <option value="1">1 Star - Poor</option>
+            </select>
+            <textarea id="reviewText" placeholder="Write a comment..." style="height: 80px;"></textarea>
+            <button id="submitBtn" style="background: #22c55e; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%;">Submit Rating</button>
+            <button onclick="closeRatingModal()" style="background: none; border: none; color: #6b7280; margin-top: 10px; cursor: pointer;">Cancel</button>
+        </div>
+    </div>
+
+    <footer>MaidConnect © 2026</footer>
+
+    <script>
+        // Global functions for the modal
+        function openRatingModal(name) {
+            window.currentMaidForRating = name;
+            document.getElementById("targetMaidName").innerText = name;
+            document.getElementById("ratingModal").style.display = "flex";
+        }
+
+        function closeRatingModal() {
+            document.getElementById("ratingModal").style.display = "none";
+        }
+
+        // Bridge to the Firebase logic
+        document.getElementById("submitBtn").addEventListener("click", () => {
+            if (window.submitRating) {
+                window.submitRating();
+            }
+        });
+    </script>
+
+    <script type="module" src="js/fetchMaids.js"></script>
+</body>
+</html>
